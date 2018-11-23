@@ -205,6 +205,77 @@ public class IO_Protocol {
                 reply=""+rpio.getInput(Integer.parseInt(parts[1]));
                 break;
                 
+           // Read Flags byte
+            case "14":
+                if(partsLenght!=2)
+                    break;
+                reply=""+rpio.getFlags();
+                break;
+            
+            //Read flag
+            case "15":
+               if(partsLenght!=2)
+                    break;
+               reply=""+rpio.getFlag(Integer.parseInt(parts[1]));
+               break;
+            
+            //Set flag
+            case "16":
+               if(partsLenght!=2)
+                    break;
+               rpio.setFlag(Integer.parseInt(parts[1]));
+               reply="*";
+               break;
+               
+            //Reset Flag
+            case "17":
+                if(partsLenght!=2)
+                    break;
+                rpio.resetFlag(Integer.parseInt(parts[1]));
+                reply="*";
+                break;
+               
+            //Read Setpoint
+            case "18":
+                if(partsLenght!=2)
+                    break;
+                reply=""+rpio.getSetpoint(Integer.parseInt(parts[1]));
+                break;
+                
+            //Write Setpoint
+            case "19":
+                if(partsLenght!=3){
+                    reply="/";
+                    break;
+                }
+                rpio.setSetpoint(Integer.parseInt(parts[1]),Double.parseDouble(parts[2]));
+                reply="*";
+                break;
+                
+            //Get Setpoints Array
+            case "20":
+                if(partsLenght!=2)
+                    break;
+                reply="";
+                for(int i=1;i<9;i++){
+                    reply=reply+rpio.getSetpoint(i);
+                    if(i<8){
+                        reply=reply+",";
+                    }
+                }
+                break;
+            //Get Analog data Array
+            case "21":
+                if(partsLenght!=2)
+                    break;
+                reply="";
+                for(int i=1;i<9;i++){
+                    reply=reply+rpio.getAnalogRead(i);
+                    if(i<8){
+                        reply=reply+",";
+                    }
+                }
+                break;
         }
         return reply;
         

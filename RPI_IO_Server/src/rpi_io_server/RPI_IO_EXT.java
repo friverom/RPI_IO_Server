@@ -14,6 +14,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import rpi_io.RPI_IO;
 
+
 /**
  * This class creates and adds privilege controls on outputs of RPI_IO board.
  * Output relays now has owner (task) and level priority (level) to gain access
@@ -31,7 +32,7 @@ public class RPI_IO_EXT extends RPI_IO{
     private static double[] analog_type = new double[8];//analog type
     private static double[] zero_cal = new double[8];//zero calibration
     private static double[] span_cal = new double[8];//span calibration
-
+    
     public static final int MASTER=255; 
     
     /**
@@ -281,7 +282,4 @@ public class RPI_IO_EXT extends RPI_IO{
         return "0";
     }
    
-    
-    
-    
 }
