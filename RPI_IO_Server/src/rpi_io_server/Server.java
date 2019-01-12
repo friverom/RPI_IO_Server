@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import rpi_io.RPI_IO;
+
 
 
 
@@ -42,7 +42,7 @@ public class Server {
             }
         
         // new thread for a client
-        System.out.println("New client connected");
+        //System.out.println("New client connected");
         new ServerWorker(socket,rpio).start();
     }
 
@@ -53,7 +53,7 @@ public class Server {
         double value = 0;
         Calendar date = null;
 
-        rpio.setLockRly(1, 10, 3, 3);
+        rpio.setLockRly(1, 10, 3, 8);
 
         for (int i = 0; i < t; i++) {
             rpio.out_on();
@@ -61,6 +61,11 @@ public class Server {
             rpio.setRly(1, 10, 5);
             rpio.setRly(2, 10, 4);
             rpio.setRly(3, 10, 5);
+            rpio.setRly(4, 10, 5);
+            rpio.setRly(5, 10, 5);
+            rpio.setRly(6, 10, 5);
+            rpio.setRly(7, 10, 5);
+            rpio.setRly(8, 10, 5);
             value = rpio.getAnalogRead(2);
             System.out.println("Analog: " + value);
             date = rpio.getCalendarRTC();
@@ -72,6 +77,11 @@ public class Server {
             rpio.resetRly(1, 10, 5);
             rpio.resetRly(2, 10, 4);
             rpio.resetRly(3, 10, 5);
+            rpio.resetRly(4, 10, 5);
+            rpio.resetRly(5, 10, 5);
+            rpio.resetRly(6, 10, 5);
+            rpio.resetRly(7, 10, 5);
+            rpio.resetRly(8, 10, 5);
             value = rpio.getAnalogRead(2);
             System.out.println("Analog: " + value);
             

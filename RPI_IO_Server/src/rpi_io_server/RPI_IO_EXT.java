@@ -15,6 +15,8 @@ import java.io.IOException;
 import rpi_io.RPI_IO;
 
 
+
+
 /**
  * This class creates and adds privilege controls on outputs of RPI_IO board.
  * Output relays now has owner (task) and level priority (level) to gain access
@@ -194,8 +196,13 @@ public class RPI_IO_EXT extends RPI_IO{
      */
     private void readAnalogSettings() throws FileNotFoundException, IOException{
     
-        File file = new File("CalibrationData.txt");
-        file.createNewFile();
+        File file = new File("/home/pi/NetBeansProjects/RPI_IO_Server/CalibrationData.txt");
+        boolean exists = file.exists();
+        if(!exists){
+            file.createNewFile();
+            saveAnalogSettings();
+        }
+        
         BufferedReader reader = null;
         
         reader = new BufferedReader(new FileReader(file));
@@ -223,7 +230,7 @@ public class RPI_IO_EXT extends RPI_IO{
      */
     private String saveAnalogSettings() throws IOException{
      
-        File file = new File("CalibrationData.txt");
+        File file = new File("/home/pi/NetBeansProjects/RPI_IO_Server/CalibrationData.txt");
         file.createNewFile();
         BufferedWriter writer = null;
         
