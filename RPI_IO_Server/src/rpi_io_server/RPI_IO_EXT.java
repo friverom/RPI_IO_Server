@@ -14,41 +14,31 @@ import java.io.FileWriter;
 import java.io.IOException;
 import rpi_io.RPI_IO;
 
-
-
-
 /**
- * This class creates and adds privilege controls on outputs of RPI_IO board.
- * Output relays now has owner (task) and level priority (level) to gain access
- * to them.
- * Analog inputs are now converted to their voltage value equivalent based on
- * parameters sets defined in file "CalibrationData.txt". Analog input type are 
- * 5V, 10V and 0..20mA. Zero and span can also be adjusted to calibrate each
- * input.
- * @author Federico Rivero
+ *
+ * @author Federico
  */
 public class RPI_IO_EXT extends RPI_IO{
-    
     private static byte[] lockRly = new byte[8]; //relay owner
     private static byte[] lockLvl = new byte[8]; //lock level
     private static double[] analog_type = new double[8];//analog type
     private static double[] zero_cal = new double[8];//zero calibration
     private static double[] span_cal = new double[8];//span calibration
-    
+
     public static final int MASTER=255; 
     
     /**
      * Class Constructor. 
      * Initializes analog control arrays
      */
-    public RPI_IO_EXT() throws IOException {
+    public RPI_IO_EXT() throws IOException, InterruptedException {
         super();
         for(int i=0;i<8;i++){
             lockRly[i]=0;
             lockLvl[i]=0;
-            analog_type[i]=1.0;
+            analog_type[i]=0;
             zero_cal[i]=0;
-            span_cal[i]=1.0;
+            span_cal[i]=0;
         }
         //Read Analog settings from "CalibrationData.txt" file
         this.readAnalogSettings();
@@ -71,7 +61,7 @@ public class RPI_IO_EXT extends RPI_IO{
         
     }
     /* 
-     * This method get the owner of a relay output.  
+     * This method get's the owner of a relay output.  
      * @param rly int from 1 to 8
      * @return int owner
      */
@@ -109,18 +99,15 @@ public class RPI_IO_EXT extends RPI_IO{
      * @return int. 0 if operation succeed. -1 if not
      */
     public int setLockRly(int rly, int task, int lvl, int rlycount){
-        // NOTE. This method should be revised. 
-        // Should call setLockRly(rly,task,level) to set the lock
-        // and test if operation succesfull on each relay.
+        
         int data=0;
         
         if((rly+rlycount-1)>8){
             data=-1;
         } else {
-            for (int i = 0; i < (rly + rlycount - 1); i++) {
-                lockRly[i] = (byte) task;
-                lockLvl[i] = (byte) lvl;
-            }
+            for (int i = 0; i < rlycount; i++) {
+                setLockRly(task,lvl,rly+i);
+                }
         }
         return data;
     }
@@ -196,13 +183,8 @@ public class RPI_IO_EXT extends RPI_IO{
      */
     private void readAnalogSettings() throws FileNotFoundException, IOException{
     
-        File file = new File("/home/pi/NetBeansProjects/RPI_IO_Server/CalibrationData.txt");
-        boolean exists = file.exists();
-        if(!exists){
-            file.createNewFile();
-            saveAnalogSettings();
-        }
-        
+        File file = new File("CalibrationData.txt");
+        file.createNewFile();
         BufferedReader reader = null;
         
         reader = new BufferedReader(new FileReader(file));
@@ -230,7 +212,7 @@ public class RPI_IO_EXT extends RPI_IO{
      */
     private String saveAnalogSettings() throws IOException{
      
-        File file = new File("/home/pi/NetBeansProjects/RPI_IO_Server/CalibrationData.txt");
+        File file = new File("CalibrationData.txt");
         file.createNewFile();
         BufferedWriter writer = null;
         
@@ -288,5 +270,23 @@ public class RPI_IO_EXT extends RPI_IO{
         saveAnalogSettings();
         return "0";
     }
-   
+    /**
+     * Turns ON RTC Led
+     * @return 
+     */
+    public String setRPI_on(){
+        
+        super.out_on();
+        return "0";
+    }
+    
+    /**
+     * Turns OFF RTC Led.
+     * @return 
+     */
+    public String setRPI_off(){
+        super.out_off();
+        return "0";
+    }
+    
 }
