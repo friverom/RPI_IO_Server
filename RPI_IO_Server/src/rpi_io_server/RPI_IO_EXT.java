@@ -289,4 +289,9 @@ public class RPI_IO_EXT extends RPI_IO{
         return "0";
     }
     
+    public String readControlReg() throws IOException{
+        String reply = ""+super.getControlReg();
+        return reply;
+    }
+    
 }

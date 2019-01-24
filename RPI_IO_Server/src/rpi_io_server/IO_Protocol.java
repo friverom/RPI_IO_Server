@@ -212,6 +212,12 @@ public class IO_Protocol {
                 if(partsLenght!=2)
                     break;
                 reply=""+rpio.setRPI_off();
+                break;
+                
+            case "24":
+                if(partsLenght!=2)
+                    break;
+                reply=""+rpio.getControlReg();
           
         }
         return reply;
