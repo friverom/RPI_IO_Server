@@ -183,7 +183,7 @@ public class RPI_IO_EXT extends RPI_IO{
      */
     private void readAnalogSettings() throws FileNotFoundException, IOException{
     
-        File file = new File("CalibrationData.txt");
+        File file = new File("/home/pi/NetBeansProjects/RPI_IO_Server/CalibrationData.txt");
         file.createNewFile();
         BufferedReader reader = null;
         
@@ -212,7 +212,7 @@ public class RPI_IO_EXT extends RPI_IO{
      */
     private String saveAnalogSettings() throws IOException{
      
-        File file = new File("CalibrationData.txt");
+        File file = new File("/home/pi/NetBeansProjects/RPI_IO_Server/CalibrationData.txt");
         file.createNewFile();
         BufferedWriter writer = null;
         
