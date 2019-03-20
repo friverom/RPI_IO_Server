@@ -36,9 +36,9 @@ public class RPI_IO_EXT extends RPI_IO{
         for(int i=0;i<8;i++){
             lockRly[i]=0;
             lockLvl[i]=0;
-            analog_type[i]=0;
-            zero_cal[i]=0;
-            span_cal[i]=0;
+            analog_type[i]=1.0;
+            zero_cal[i]=0.0;
+            span_cal[i]=1.0;
         }
         //Read Analog settings from "CalibrationData.txt" file
         this.readAnalogSettings();
@@ -292,6 +292,11 @@ public class RPI_IO_EXT extends RPI_IO{
     public String readControlReg() throws IOException{
         String reply = ""+super.getControlReg();
         return reply;
+    }
+    
+    public String setOutputPort(int value){
+        super.setPort(value);
+        return "0";
     }
     
 }

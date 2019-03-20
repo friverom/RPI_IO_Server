@@ -218,6 +218,14 @@ public class IO_Protocol {
                 if(partsLenght!=2)
                     break;
                 reply=""+rpio.getControlReg();
+                break;
+                
+            case "25":
+                if(partsLenght!=2)
+                    break;
+                reply=""+rpio.setOutputPort(Integer.parseInt(parts[1]));
+                break;
+                
           
         }
         return reply;
